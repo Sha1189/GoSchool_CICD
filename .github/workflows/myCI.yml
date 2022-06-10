@@ -1,1 +1,16 @@
-
+name: CI for GO Code #Naming the workflow
+on: #for even triggering
+  push: 
+    branches: [main]
+  pull_request:
+    branches: [main]
+    
+jobs: # job to execute?
+  build: # name of the job
+    name: Load OS #name for printing
+    runs-on: ubuntu-latest #specify OS in virutal machine
+    steps: 
+    - name: Print Hello
+      run: | # run terminal command
+        ls
+        echo Hello!! 

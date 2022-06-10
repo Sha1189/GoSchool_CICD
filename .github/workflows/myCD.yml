@@ -6,17 +6,20 @@ on:
       
 jobs:
   release:
-    name: Release on Github
+    name: Release on GitHub
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2.4.2
-        
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v3
-        if: startsWith(github.ref, 'refs/tags/')
+      
+      - name: Validate Go Releaser configuration
+        uses: docker://goreleaser/goreleaser:latest
         with:
-          version: latest
-          args: release --rm-dist
+          arg: check
+          
+      - name: GoReleaser Action
+        uses: goreleaser/goreleaser-action@v3.0.0
+        with:
+          arg: release --rm-dist
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

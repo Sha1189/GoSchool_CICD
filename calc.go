@@ -1,11 +1,6 @@
 package calc
 
-import (
-	"fmt"
-)
-
-func main () {
-	fmt.Println("Calc")
+func main() {	
 }
 
 // Add two numbers and return the result.

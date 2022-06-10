@@ -32,5 +32,23 @@ jobs: # job to execute?
         go mod init calc
         go mod tidy
         go get github.com/franela/goblin
+        go get github.com/tebeka/go2xunit
         go test -v
+        go test -v -cover | go2xunit >report.xml
+    - if: ${{failure()}}    
+      name: Create Issues
+      uses: nashmaniac/create-issue-action@v1.1 
+      with:
+          title: Build Failed
+          token: ${{secrets.GITHUB_TOKEN}}
+          assignees: ${{github.actor}}
+          labels: worflow-failed
+          body: Workflow failed for commit ${{github.sha}}
+    - if: ${{success()}}
+      name: Display test information
+      uses: EnricoMi/publish-unit-test-result-action@v1.5
+      with: 
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          files: report.xml
+    
       
